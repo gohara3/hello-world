@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI Taxonomy Completeness Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .section {
+            margin-top: 20px;
+        }
+        .section-title {
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        .subsection {
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+        .subsection-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .item {
+            margin-left: 40px;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>AI Taxonomy Completeness Calculator</h1>
+
+<p>Select the items that are present in your organization to calculate the taxonomy completeness percentage.</p>
+
+<div id="taxonomy"></div>
+
+<p><strong>Taxonomy Completeness: <span id="percentage">0%</span></strong></p>
+
+<script>
+    const taxonomy = [
+        {
+            title: 'AI Use Case Classification',
+            subsections: [
+                {
+                    title: 'By Functionality',
+                    items: [
+                        'Predictive Analytics',
+                        'Natural Language Processing (NLP)',
+                        'Computer Vision',
+                        'Robotic Process Automation (RPA)',
+                        'Recommendation Systems',
+                        'Decision Support Systems'
+                    ]
+                },
+                {
+                    title: 'By Department or Business Unit',
+                    items: [
+                        'Finance',
+                        'Human Resources',
+                        'Marketing',
+                        'Operations',
+                        'IT',
+                        'Product Development'
+                    ]
+                }
+            ]
+        },
+        {
+            title: 'AI Maturity Levels',
+            items: [
+                'Pilot Projects',
+                'Operationalized Systems',
+                'Automated Systems',
+                'Legacy AI Systems'
+            ]
+        },
+        {
+            title: 'Data Sources and Dependencies',
+            subsections: [
+                {
+                    title: 'Internal Data Systems',
+                    items: [
+                        'Structured data',
+                        'Unstructured data'
+                    ]
+                },
+                {
+                    title: 'External Data Sources',
+                    items: [
+                        'Third-party data',
+                        'APIs'
+                    ]
+                },
+                {
+                    title: 'Real-time Data Pipelines',
+                    items: [
+                        'Streaming data',
+                        'Batch data'
+                    ]
+                }
+            ]
+        },
+        {
+            title: 'Technology Stack and Tools',
+            items: [
+                'Machine Learning Frameworks',
+                'Natural Language Processing',
+                'Data Science Platforms',
+                'AI Governance and Monitoring Tools'
+            ]
+        },
+        {
+            title: 'AI Deployment and Integration Models',
+            items: [
+                'Cloud-based AI',
+                'On-premises AI',
+                'Hybrid Models',
+                'Edge AI'
+            ]
+        },
+        {
+            title: 'Risk and Compliance Categorization',
+            items: [
+                'High-risk AI Systems',
+                'Low-risk AI Systems',
+                'Regulatory Compliance'
+            ]
+        },
+        {
+            title: 'Stakeholders and Governance',
+            items: [
+                'Business Owners',
+                'Data Scientists & Engineers',
+                'Compliance & Risk Teams',
+                'IT & Security',
+                'AI Governance Committee'
+            ]
+        },
+        {
+            title: 'AI Impact and Value Mapping',
+            items: [
+                'Business Efficiency',
+                'Customer Experience',
+                'Innovation and New Revenue Streams'
+            ]
+        },
+        {
+            title: 'AI Lifespan and Maintenance',
+            items: [
+                'Active AI Systems',
+                'Dormant AI Systems',
+                'Retired AI Systems'
+            ]
+        }
+    ];
+
+    let totalItems = 0;
+    let selectedItems = 0;
+
+    function createCheckbox(itemText) {
+        totalItems++;
+        const itemDiv = document.createElement('div');
+        itemDiv.className = 'item';
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.addEventListener('change', updatePercentage);
+        const label = document.createElement('label');
+        label.textContent = ' ' + itemText;
+        itemDiv.appendChild(checkbox);
+        itemDiv.appendChild(label);
+        return itemDiv;
+    }
+
+    function updatePercentage() {
+        selectedItems = document.querySelectorAll('input[type="checkbox"]:checked').length;
+        const percentage = ((selectedItems / totalItems) * 100).toFixed(2);
+        document.getElementById('percentage').textContent = percentage + '%';
+    }
+
+    function buildTaxonomy() {
+        const container = document.getElementById('taxonomy');
+        taxonomy.forEach(section => {
+            const sectionDiv = document.createElement('div');
+            sectionDiv.className = 'section';
+            const sectionTitle = document.createElement('div');
+            sectionTitle.className = 'section-title';
+            sectionTitle.textContent = section.title;
+            sectionDiv.appendChild(sectionTitle);
+
+            if (section.items) {
+                section.items.forEach(item => {
+                    const itemDiv = createCheckbox(item);
+                    sectionDiv.appendChild(itemDiv);
+                });
+            }
+
+            if (section.subsections) {
+                section.subsections.forEach(subsection => {
+                    const subsectionDiv = document.createElement('div');
+                    subsectionDiv.className = 'subsection';
+                    const subsectionTitle = document.createElement('div');
+                    subsectionTitle.className = 'subsection-title';
+                    subsectionTitle.textContent = subsection.title;
+                    subsectionDiv.appendChild(subsectionTitle);
+
+                    subsection.items.forEach(item => {
+                        const itemDiv = createCheckbox(item);
+                        subsectionDiv.appendChild(itemDiv);
+                    });
+
+                    sectionDiv.appendChild(subsectionDiv);
+                });
+            }
+
+            container.appendChild(sectionDiv);
+        });
+    }
+
+    buildTaxonomy();
+</script>
+
+</body>
+</html>
